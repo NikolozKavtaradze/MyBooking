@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34607.119
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F157A3A0-F86A-497E-90F4-752036911A55}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{377B13C6-AF2D-412A-A595-9A32731F36EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyBooking.Domain", "MyBooking.Domain\MyBooking.Domain.csproj", "{35DE45C4-BD94-412D-97A3-645F8CD60C9F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{35DE45C4-BD94-412D-97A3-645F8CD60C9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35DE45C4-BD94-412D-97A3-645F8CD60C9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35DE45C4-BD94-412D-97A3-645F8CD60C9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35DE45C4-BD94-412D-97A3-645F8CD60C9F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{35DE45C4-BD94-412D-97A3-645F8CD60C9F} = {F157A3A0-F86A-497E-90F4-752036911A55}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CDD00BE3-10B3-4BCB-8B0B-5DA061653DE2}
+	EndGlobalSection
+EndGlobal
