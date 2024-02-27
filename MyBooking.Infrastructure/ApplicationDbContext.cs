@@ -2,6 +2,7 @@
 using MyBooking.Domain.Abstractions;
 using System.Data;
 using MediatR;
+using MyBooking.Application.Exceptions;
 
 namespace MyBooking.Infrastructure;
 
@@ -23,12 +24,18 @@ public sealed class ApplicationDbContext : DbContext, IUnitOfWork
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
+        try
+        {
+            var result = await base.SaveChangesAsync(cancellationToken);
 
-        var result = await base.SaveChangesAsync(cancellationToken);
+            await PublishDomainEventsAsync();
 
-        await PublishDomainEventsAsync();
-
-        return result;
+            return result;
+        }
+        catch (DbUpdateConcurrencyException ex)
+        {
+            throw new ConcurrencyException("Concurrency exception occurred", ex);
+        }
     }
 
     private async Task PublishDomainEventsAsync()
