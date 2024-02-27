@@ -16,7 +16,9 @@ public sealed class User : Entity
         Email = email;
     }
 
-
+    private User()
+    {
+    }
 
     public FirstName FirstName { get; private set; }
 
