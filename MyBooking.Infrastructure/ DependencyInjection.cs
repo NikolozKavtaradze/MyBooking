@@ -1,6 +1,7 @@
 ﻿using Bookify.Infrastructure.Data;
 using Bookify.Infrastructure.Repositories;
 using Dapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,9 +12,11 @@ using MyBooking.Domain.Abstractions;
 using MyBooking.Domain.Apartments;
 using MyBooking.Domain.Bookings;
 using MyBooking.Domain.Users;
+using MyBooking.Infrastructure.Authentication;
 using MyBooking.Infrastructure.Clock;
 using MyBooking.Infrastructure.Data;
 using MyBooking.Infrastructure.Email;
+using AuthenticationOptions = Microsoft.AspNetCore.Authentication.AuthenticationOptions;
 
 namespace MyBooking.Infrastructure;
 
@@ -27,9 +30,25 @@ public static class DependencyInjection
 
         services.AddTransient<IEmailService, EmailService>();
 
+        AddPersistence(services, configuration);
+
+
+        services
+            .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer();
+
+        services.Configure<AuthenticationOptions>(configuration.GetSection("Authentication"));
+
+        services.ConfigureOptions<JwtBearerOptionsSetup>();
+
+        return services;
+    }
+
+    private static void AddPersistence(IServiceCollection services, IConfiguration configuration)
+    {
         var connectionString = configuration.
-            GetConnectionString("Database") ?? 
-            throw new ArgumentNullException(nameof(configuration));
+                                   GetConnectionString("Database") ?? 
+                               throw new ArgumentNullException(nameof(configuration));
 
         services.AddDbContext<ApplicationDbContext>(options =>
         {
@@ -48,7 +67,5 @@ public static class DependencyInjection
             new SqlConnectionFactory(connectionString));
 
         SqlMapper.AddTypeHandler(new DateOnlyTypeHandler());
-
-        return services;
     }
 }

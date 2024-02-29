@@ -1,3 +1,4 @@
+using MyBooking.API.Extensions;
 using MyBooking.Application;
 using MyBooking.Infrastructure;
 
@@ -10,6 +11,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddApplication();
 
+
 builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
@@ -18,9 +20,19 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
+    app.ApplyMigrations();
+
+    //app.SeedData();
 }
 
 app.UseHttpsRedirection();
+
+app.UseCustomExceptionHandler();
+
+app.UseAuthentication();
+
+app.UseAuthorization();
 
 app.MapControllers();
 

@@ -1,10 +1,12 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyBooking.Application.Apartments.SearchApartments;
 
 namespace MyBooking.API.Controllers.Apartments
 {
+    [Authorize]
     [Route("api/apartments")]
     [ApiController]
     public class ApartmentsController : ControllerBase
