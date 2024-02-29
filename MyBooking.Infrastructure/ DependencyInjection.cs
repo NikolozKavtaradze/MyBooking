@@ -12,9 +12,11 @@ using MyBooking.Domain.Abstractions;
 using MyBooking.Domain.Apartments;
 using MyBooking.Domain.Bookings;
 using MyBooking.Domain.Users;
+using MyBooking.Infrastructure.Authentication;
 using MyBooking.Infrastructure.Clock;
 using MyBooking.Infrastructure.Data;
 using MyBooking.Infrastructure.Email;
+using AuthenticationOptions = Microsoft.AspNetCore.Authentication.AuthenticationOptions;
 
 namespace MyBooking.Infrastructure;
 
@@ -34,6 +36,10 @@ public static class DependencyInjection
         services
             .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer();
+
+        services.Configure<AuthenticationOptions>(configuration.GetSection("Authentication"));
+
+        services.ConfigureOptions<JwtBearerOptionsSetup>();
 
         return services;
     }
