@@ -1,7 +1,7 @@
-﻿using MyBooking.Application.Abstractions;
-using MyBooking.Domain.Users;
+﻿using MyBooking.Domain.Users;
 using System.Net.Http.Json;
 using MyBooking.Infrastructure.Authentication.Models;
+using MyBooking.Application.Abstractions.Authentication;
 
 namespace MyBooking.Infrastructure.Authentication;
 
