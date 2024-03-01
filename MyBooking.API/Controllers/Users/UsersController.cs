@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MyBooking.Api.Controllers.Users;
+using MyBooking.Application.Users.LogInUser;
 using MyBooking.Application.Users.RegisterUser;
 
 namespace MyBooking.API.Controllers.Users
@@ -34,6 +36,23 @@ namespace MyBooking.API.Controllers.Users
             if (result.IsFailure)
             {
                 return BadRequest(result.Error);
+            }
+
+            return Ok(result.Value);
+        }
+        [AllowAnonymous]
+        [HttpPost("login")]
+        public async Task<IActionResult> LogIn(
+            LogInUserRequest request,
+            CancellationToken cancellationToken)
+        {
+            var command = new LogInUserCommand(request.Email, request.Password);
+
+            var result = await _sender.Send(command, cancellationToken);
+
+            if (result.IsFailure)
+            {
+                return Unauthorized(result.Error);
             }
 
             return Ok(result.Value);
