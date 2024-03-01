@@ -14,7 +14,7 @@ public class JwtBearerOptionsSetup : IConfigureNamedOptions<JwtBearerOptions>
 
     public void Configure(JwtBearerOptions options)
     {
-        options.Authority = _authenticationOptions.MetadataUrl;
+        options.MetadataAddress = _authenticationOptions.MetadataUrl;
         options.Audience = _authenticationOptions.Audience;
         options.RequireHttpsMetadata = _authenticationOptions.RequireHttpsMetadata;
         options.TokenValidationParameters.ValidIssuer = _authenticationOptions.Issuer;
