@@ -17,4 +17,8 @@
     <ProjectReference Include="..\MyBooking.Domain\MyBooking.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Users\RegisterUser\" />
+  </ItemGroup>
+
 </Project>
