@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using MyBooking.Application.Abstractions;
+using MyBooking.Application.Abstractions.Authentication;
 using MyBooking.Application.Abstractions.Messaging;
 using MyBooking.Domain.Abstractions;
 using MyBooking.Domain.Users;
