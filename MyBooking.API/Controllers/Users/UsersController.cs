@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyBooking.Api.Controllers.Users;
+using MyBooking.Application.Users.GetLoggedInUser;
 using MyBooking.Application.Users.LogInUser;
 using MyBooking.Application.Users.RegisterUser;
+using MyBooking.Infrastructure.Authorization;
 
 namespace MyBooking.API.Controllers.Users
 {
@@ -17,6 +19,17 @@ namespace MyBooking.API.Controllers.Users
         public UsersController(ISender sender)
         {
             _sender = sender;
+        }
+
+        [HttpGet("me")]
+        [HasPermission(Permissions.UsersRead)]
+        public async Task<IActionResult> GetLoggedInUser(CancellationToken cancellationToken)
+        {
+            var query = new GetLoggedInUserQuery();
+
+            var result = await _sender.Send(query, cancellationToken);
+
+            return Ok(result.Value);
         }
 
         [AllowAnonymous]

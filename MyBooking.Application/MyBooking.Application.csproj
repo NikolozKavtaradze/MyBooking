@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Users\GetLoggedInUser\" />
     <Folder Include="Users\RegisterUser\" />
   </ItemGroup>
 

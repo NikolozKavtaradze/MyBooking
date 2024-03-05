@@ -1,7 +1,9 @@
 ﻿using Bookify.Infrastructure.Data;
 using Bookify.Infrastructure.Repositories;
 using Dapper;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,9 +17,14 @@ using MyBooking.Domain.Apartments;
 using MyBooking.Domain.Bookings;
 using MyBooking.Domain.Users;
 using MyBooking.Infrastructure.Authentication;
+using MyBooking.Infrastructure.Authorization;
 using MyBooking.Infrastructure.Clock;
 using MyBooking.Infrastructure.Data;
 using MyBooking.Infrastructure.Email;
+using AuthenticationOptions = MyBooking.Infrastructure.Authentication.AuthenticationOptions;
+using AuthenticationService = MyBooking.Infrastructure.Authentication.AuthenticationService;
+using IAuthenticationService = MyBooking.Application.Abstractions.Authentication.IAuthenticationService;
+
 namespace MyBooking.Infrastructure;
 
 public static class DependencyInjection
@@ -33,6 +40,8 @@ public static class DependencyInjection
         AddPersistence(services, configuration);
 
         AddAuthentication(services, configuration);
+
+        AddAuthorization(services);
 
         return services;
     }
@@ -70,6 +79,10 @@ public static class DependencyInjection
 
             httpClient.BaseAddress = new Uri(keycloakOptions.TokenUrl);
         });
+
+        services.AddHttpContextAccessor();
+
+        services.AddScoped<IUserContext, UserContext>();
     }
 
     private static void AddPersistence(IServiceCollection services, IConfiguration configuration)
@@ -95,5 +108,16 @@ public static class DependencyInjection
             new SqlConnectionFactory(connectionString));
 
         SqlMapper.AddTypeHandler(new DateOnlyTypeHandler());
+    }
+
+    private static void AddAuthorization(IServiceCollection services)
+    {
+        services.AddScoped<AuthorizationService>();
+
+        services.AddTransient<IClaimsTransformation, CustomClaimsTransformation>();
+
+        services.AddTransient<IAuthorizationHandler, PermissionAuthorizationHandler>();
+
+        services.AddTransient<IAuthorizationPolicyProvider, PermissionAuthorizaitionPolicyProvider>();
     }
 }
